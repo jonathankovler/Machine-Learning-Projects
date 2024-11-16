@@ -8,18 +8,10 @@ from preprocessing import filter_by_label
 CHECKPOINT = "avichr/heBERT_sentiment_analysis"
 
 # Load Tokenizer and Model
-tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
-model = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT, num_labels=3)
+TOKENIZER = AutoTokenizer.from_pretrained(CHECKPOINT)
+MODEL = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT, num_labels=3)
 
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
-
-# Function to filter by specific label
-def filter_by_label(dataset, label):
-    """
-    Filters dataset based on label value.
-    """
-    return dataset.filter(lambda x: x['labels'] == label)
+data_collator = DataCollatorWithPadding(tokenizer=TOKENIZER)
 
 
 def preprocess_and_tokenize(dataset, columns_to_remove, label_mapping, label_column='label_column'):
@@ -38,7 +30,7 @@ def preprocess_and_tokenize(dataset, columns_to_remove, label_mapping, label_col
     # Tokenize Text
     def tokenize_text(examples):
         # Tokenize the text column, truncate to max length of 512, and add padding
-        return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=512)
+        return TOKENIZER(examples["text"], truncation=True, padding="max_length", max_length=512)
 
     # Transform labels
     def transform_labels(example):
@@ -49,6 +41,7 @@ def preprocess_and_tokenize(dataset, columns_to_remove, label_mapping, label_col
     # Apply tokenization and label transformation to the dataset
     processed_dataset = dataset.map(tokenize_text, batched=True)
     processed_dataset = processed_dataset.map(transform_labels)
+
     # Remove unnecessary columns from the dataset
     processed_dataset = processed_dataset.remove_columns(columns_to_remove)
 
@@ -96,34 +89,90 @@ def prepare_new_data(new_data, label_mapping, label_column_name):
     """
     # Convert the pandas DataFrame to a Hugging Face dataset
     dataset = datasets.Dataset.from_pandas(new_data)
+
     # Preprocess and tokenize the dataset
     return preprocess_and_tokenize(dataset, label_mapping, label_column=label_column_name)
 
 
-if __name__ == "__main__":
+# Function to filter by specific label
+def filter_by_label(dataset, label):
+    """
+    Filters dataset based on label value.
+    """
+    return dataset.filter(lambda x: x['labels'] == label)
+
+
+def balance_dataset(dataset, target_sizes):
+    """
+    Balance the dataset by selecting a target number of examples for each label.
+
+    Args:
+        dataset: The dataset to balance.
+        target_sizes: Dictionary specifying the target number of examples for each label.
+
+    Returns:
+        balanced_dataset: A balanced dataset with specified target sizes for each label.
+    """
+    balanced_splits = []
+    # Iterate over each label and filter the dataset, then select target number of examples
+    for label_value, target_size in target_sizes.items():
+        label_filtered_dataset = filter_by_label(dataset, label_value)
+        # Shuffle and select the desired number of examples
+        balanced_split = label_filtered_dataset.shuffle(seed=42).select(
+            range(min(len(label_filtered_dataset), target_size)))
+        balanced_splits.append(balanced_split)
+    # Concatenate all balanced splits into one dataset
+    balanced_dataset = concatenate_datasets(balanced_splits)
+    return balanced_dataset
+
+
+synthetic_processed_data = load_from_disk(
+    "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/processed_synthetic_data")
+
+train_dataset, val_dataset, test_dataset = split_dataset(synthetic_processed_data)
+
+
+def main():
     # Path to the preprocessed data file
-    preprocessed_data = r'C:\Users\kovle\PycharmProjects\news-headlines-sentiment-analysis\data\sentiments-dataset.csv'
+    file_path = r'C:\\Users\\kovle\\PycharmProjects\\news-headlines-sentiment-analysis\\data\\synthetic_data_15k.csv'
 
     # Load the CSV file containing the preprocessed data
-    dataset = pd.read_csv(preprocessed_data)
-
-    # Filter out rows that belong to the 'NEWS' category
-    news_dataset = dataset[dataset["category"] == "NEWS"]
+    dataset_preprocessed = pd.read_csv(file_path)
 
     # Columns to remove during preprocessing
-    columns_to_remove = ['id', 'category', 'class', 'total_tags', 'selected_tag',
-                         'polarity', 'text', '__index_level_0__', 'tag']
+    columns_to_remove = ["text", "Sentiment"]
 
     # Define the label mapping for this dataset
-    label_mapping = {'נ': 0, 'ח': 1, 'ש': 2}  # Example of a different label mapping
+    label_mapping = {'Neutral': 0, 'Positive': 1, 'Negative': 2}
 
     # Convert filtered news data to Hugging Face dataset format
-    news_dataset = Dataset.from_pandas(news_dataset)
+    dataset_preprocessed = Dataset.from_pandas(dataset_preprocessed)
 
     # Preprocess and tokenize the news dataset
-    news_processed_data = preprocess_and_tokenize(news_dataset, label_mapping=label_mapping, label_column='tag',
+    news_processed_data = preprocess_and_tokenize(dataset_preprocessed, label_mapping=label_mapping,
+                                                  label_column="Sentiment",
                                                   columns_to_remove=columns_to_remove)
 
     # Save the preprocessed news dataset to disk
     news_processed_data.save_to_disk(
+        "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/processed_synthetic_data")
+
+    # Load the unbalanced processed dataset from disk
+    news_processed_data = load_from_disk(
         "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/preprocessed_news_dataset")
+
+
+if __name__ == "__main__":
+    # main()
+    # Load the unbalanced processed dataset from disk
+    synthetic_processed_data = load_from_disk(
+        "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/processed_synthetic_data")
+
+    train_dataset, val_dataset, test_dataset = split_dataset(synthetic_processed_data)
+    '''
+
+    # Split the balanced dataset into training, validation, and test sets
+    train_dataset, val_dataset, test_dataset = split_dataset(balanced_news_dataset)
+
+    print(train_dataset, val_dataset, test_dataset)
+    '''

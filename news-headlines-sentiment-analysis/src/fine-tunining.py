@@ -4,8 +4,7 @@ import evaluate
 import numpy as np
 
 # Import the preprocessed datasets from preprocessing.py
-from preprocessing import new_balanced_train_dataset, new_balanced_val_dataset, new_balanced_test_dataset, \
-    data_collator, combined_dataset
+from data_preprocessing import data_collator, train_dataset, val_dataset, test_dataset
 
 # Model and tokenizer setup
 checkpoint = "avichr/heBERT_sentiment_analysis"
@@ -39,7 +38,7 @@ def compute_metrics(pred):
 
 # Define training arguments
 training_args = TrainingArguments(
-    output_dir="./heBERT-finetuned-news-sc2",
+    output_dir="./heBERT-news-sentiment-classifier",
     eval_strategy="epoch",
     save_strategy="no",
     per_device_train_batch_size=16,
@@ -57,8 +56,8 @@ training_args = TrainingArguments(
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=combined_dataset,
-    eval_dataset=new_balanced_val_dataset,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
     tokenizer=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics
@@ -68,8 +67,8 @@ trainer = Trainer(
 trainer.train()
 
 # Save the model after training
-trainer.save_model("./heBERT-finetuned-news-sc2")  # Explicitly save model
+trainer.save_model("./heBERT-news-sentiment-classifier")  # Explicitly save model
 
 # Evaluate the model on the test set
-results = trainer.evaluate(eval_dataset=new_balanced_test_dataset)
+results = trainer.evaluate(eval_dataset=test_dataset)
 print("Test results:", results)

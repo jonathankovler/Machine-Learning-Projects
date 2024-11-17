@@ -133,8 +133,8 @@ First, clone the repository from GitHub:
 
 
 ```bash
-git clone https://github.com/llm-projects/news-headlines-sentiment-analysis
-cd headline-sentiment-analysis
+git clone https://github.com/jonathankovler/Machine-Learning-Projects.git
+cd Machine-Learning-Projects/news-headlines-sentiment-analysis
 ```
 ### Step 2: Create a Virtual Environment (Optional but recommended)
 Creating a virtual environment helps manage dependencies and prevents conflicts:

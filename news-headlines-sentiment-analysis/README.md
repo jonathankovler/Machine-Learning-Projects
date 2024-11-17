@@ -31,7 +31,7 @@ The original HeBERT model faced challenges in accurately classifying sentiments 
 
 To address these challenges, the following steps were undertaken:
 
-1. **Initial Fine-Tuning Attempts**: The model was first fine-tuned using the [HebrewSentiment](https://huggingface.co/HebArabNlpProject/HebrewSentiment) dataset and the news subset of the [ShlomiSumit/HebrewDatasets](https://github.com/shlomisumit/HebrewDatasets). However, these datasets lacked sufficient examples related to Israeli conflicts, leading to inaccuracies in sentiment classification for such topics.
+1. **Initial Fine-Tuning Attempts**: The model was first fine-tuned using the [HebrewSentiment](https://huggingface.co/datasets/HebArabNlpProject/HebrewSentiment/tree/main) dataset and the news subset of the [ShlomiSumit/HebrewDatasets](https://github.com/shlomisumit/HebrewDatasets). However, these datasets lacked sufficient examples related to Israeli conflicts, leading to inaccuracies in sentiment classification for such topics.
     
 2. **Synthetic Data Generation**: To bridge this gap, a synthetic dataset comprising 15,000 examples was generated using **Gretel**. This dataset, available in the repository under `data/synthetic_data_15k.csv`, includes diverse examples of conflicts, military actions, and political events pertinent to Israeli news.
     

@@ -123,50 +123,53 @@ This image shows the 100 most common words found in the headlines, excluding sto
 ![Ynet Common Words](images/ynet_common_words.png)
   
 ## Installation
-  
+
 ### Prerequisites
 Ensure that you have the following installed:
 - **Python 3.7 or higher**
 - **pip** (Python package installer)
 ### Step 1: Clone the Repository
 First, clone the repository from GitHub:
-  
+
+
 ```bash
-git clone https://github.com/jonathankovler/Machine-Learning-Projects.git```
+git clone https://github.com/llm-projects/news-headlines-sentiment-analysis
+cd headline-sentiment-analysis
+```
 ### Step 2: Create a Virtual Environment (Optional but recommended)
 Creating a virtual environment helps manage dependencies and prevents conflicts:
-  
+
 ```bash
-python -m venv venvsource venv/bin/activate  # On Windows use `venv\Scripts\activate````
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+```
 ### Step 3: Install Dependencies
 Install the required dependencies by using the `requirements.txt` file:
-  
+
 ```bash
-pip install -r requirements.txt```
+pip install -r requirements.txt
+```
 ## How to Use
-  
+
 You can use the fine-tuned HeBERT model to perform sentiment analysis with the Hugging Face transformers library. Follow these steps:
-  
+
 ```python
 from transformers import AutoTokenizer, AutoModel
 
 # Fine-tuned HeBERT model
-checkpoint = 'jonkov/heBERT-news-sentiment-classifier'    
-  
-# Load the tokenizer and model  
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)  
-model = AutoModel.from_pretrained(checkpoint)  
-  
-# Use the pipeline  
-sentiment_analysis = pipeline(  
-    "sentiment-analysis",    model=model,    tokenizer=tokenizer,    return_all_scores = True)  
-  
-# Example usage  
-headline = "ישראל ניצחה במלחמה את חמאס"  
-result = sentiment_analysis(headline)  
-  
-# Output the sentiment result  
-print(result)
+checkpoint = 'jonkov/heBERT-news-sentiment-classifier'  
+
+# Load the tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModel.from_pretrained(checkpoint)
+
+# Use the pipeline
+sentiment_analysis = pipeline(
+    "sentiment-analysis",
+    model=model,
+    tokenizer=tokenizer,
+    return_all_scores = True
+)
 ```
 
 ## License

@@ -171,6 +171,7 @@ def plot_most_common_words():
     plt.show()
 
 
-plot_most_common_words()
-find_sentiment_extreme_day()
-sentiment_mapping()
+if __name__ == '__main__':
+    plot_most_common_words()
+    find_sentiment_extreme_day()
+    sentiment_mapping()

@@ -6,7 +6,6 @@ This project performs sentiment analysis on news headlines from [Ynet News](http
 - [Project Overview](#project-overview)
 - [Motivation](#motivation)
 - [Installation](#installation)
-- [Data Collection](#data-collection)
 - [Sentiment Analysis](#sentiment-analysis)
 - [Fine-Tuning the Model](#fine-tuning-the-model)
 - [Comparison Between Fine-Tuned and Original Models](#comparison-between-fine-tuned-and-original-models)

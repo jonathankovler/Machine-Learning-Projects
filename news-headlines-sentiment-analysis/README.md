@@ -39,7 +39,29 @@ To address these challenges, the following steps were undertaken:
     
 
 These refinements have improved the model's performance, making it more adept at handling the unique nuances present in Israeli news sentiment analysis.
+### Fine-Tuning Results
 
+Here are the results obtained during the fine-tuning process:
+
+- **Accuracy**: 0.9887 (Best result)
+    
+- **F1-score**: 0.9886 (Best result)
+    
+- **Test results**:
+    
+    - `eval_loss`: 0.067994
+        
+    - `eval_accuracy`: 0.9873
+        
+    - `eval_f1`: 0.9873
+        
+    - `eval_runtime`: 8.0008 seconds
+        
+    - `eval_samples_per_second`: 187.481
+        
+    - `eval_steps_per_second`: 11.749
+        
+    - `epoch`: 3.0
 ## Comparison Between Fine-Tuned and Original Models
 
 This section compares the performance of my **fine-tuned HeBERT model** to the original **HeBERT model** when analyzing the sentiment of various sentences. The results demonstrate significant differences between the predictions made by the fine-tuned version and the original (baseline) version.
@@ -135,6 +157,13 @@ sentiment_analysis = pipeline(
     tokenizer=tokenizer,
     return_all_scores = True
 )
+
+# Example usage  
+headline = "ישראל ניצחה במלחמה את חמאס"  
+result = sentiment_analysis(headline)  
+  
+# Output the sentiment result  
+print(result)
 ```
 
 ## License

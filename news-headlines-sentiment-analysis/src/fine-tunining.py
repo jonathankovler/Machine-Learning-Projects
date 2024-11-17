@@ -2,6 +2,13 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
     DataCollatorWithPadding
 import evaluate
 import numpy as np
+import logging
+
+# Set up logging to save fine-tuning results
+logging.basicConfig(handlers=[logging.FileHandler("fine_tuning_results.log", 'w', 'utf-8')],
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Import the preprocessed datasets from preprocessing.py
 from data_preprocessing import data_collator, train_dataset, val_dataset, test_dataset
@@ -28,6 +35,9 @@ def compute_metrics(pred):
     # Compute accuracy and F1-score
     accuracy_result = accuracy.compute(predictions=predictions, references=labels)
     f1_result = f1.compute(predictions=predictions, references=labels, average="weighted")
+
+    # Log metrics
+    logger.info(f"Accuracy: {accuracy_result['accuracy']}, F1-score: {f1_result['f1']}")
 
     # Return both accuracy and F1-score
     return {
@@ -71,4 +81,5 @@ trainer.save_model("./heBERT-news-sentiment-classifier")  # Explicitly save mode
 
 # Evaluate the model on the test set
 results = trainer.evaluate(eval_dataset=test_dataset)
+logger.info(f"Test results: {results}")
 print("Test results:", results)

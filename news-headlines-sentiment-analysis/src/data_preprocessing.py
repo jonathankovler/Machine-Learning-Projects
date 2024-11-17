@@ -2,7 +2,8 @@ import datasets
 import pandas as pd
 from datasets import load_dataset, concatenate_datasets, Dataset, load_from_disk
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding
-from preprocessing import filter_by_label
+
+# from preprocessing import filter_by_label
 
 # Initialize Model and Tokenizer
 CHECKPOINT = "avichr/heBERT_sentiment_analysis"
@@ -157,22 +158,11 @@ def main():
     news_processed_data.save_to_disk(
         "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/processed_synthetic_data")
 
-    # Load the unbalanced processed dataset from disk
-    news_processed_data = load_from_disk(
-        "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/preprocessed_news_dataset")
-
 
 if __name__ == "__main__":
-    # main()
+    main()
     # Load the unbalanced processed dataset from disk
     synthetic_processed_data = load_from_disk(
         "C:/Users/kovle/PycharmProjects/news-headlines-sentiment-analysis/data/processed_synthetic_data")
 
     train_dataset, val_dataset, test_dataset = split_dataset(synthetic_processed_data)
-    '''
-
-    # Split the balanced dataset into training, validation, and test sets
-    train_dataset, val_dataset, test_dataset = split_dataset(balanced_news_dataset)
-
-    print(train_dataset, val_dataset, test_dataset)
-    '''

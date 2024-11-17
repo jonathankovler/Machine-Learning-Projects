@@ -110,17 +110,17 @@ Below are the sentiment analysis predictions made by both models on a set of exa
 ### Extreme Day Results
 This image shows the sentiment analysis results for headlines on extreme days with very high or low sentiment scores:
   
-![Extreme Day Results](./extreme_day_results.png)
+![Extreme Day Results](images/extreme_day_results.png)
   
 ### Headline Sentiment Mapping
 This image provides a visualization of the sentiment mapping across various headlines:
   
-![Headline Sentiment Mapping](./headlines_sentiment_mapping.png)
+![Headline Sentiment Mapping](images/headlines_sentiment_mapping.png)
   
 ### Ynet Common Words
 This image shows the 100 most common words found in the headlines, excluding stopwords. It provides insight into the most frequently mentioned topics and terms in the Ynet News headlines.
   
-![Ynet Common Words](./ynet_common_words.png)
+![Ynet Common Words](images/ynet_common_words.png)
   
 ## Installation
   

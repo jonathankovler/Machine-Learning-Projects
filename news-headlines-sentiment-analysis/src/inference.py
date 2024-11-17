@@ -1,8 +1,5 @@
-from numpy.ma.setup import configuration
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
-import torch
 from configuration import PATH_TO_BASE_MODEL
-from src.sentiment_analysis import sentiment_analysis
 
 # Load the fine-tuned model and tokenizer
 model_path = "./heBERT-news-sentiment-classifier"  # The directory where you saved your model

@@ -51,53 +51,19 @@ This section compares the performance of my **fine-tuned HeBERT model** to the o
     
 2. **Original HeBERT Model**: The base model (`avichr/heBERT_sentiment_analysis`) without additional fine-tuning. It serves as the baseline for comparison.
     
-### Example Predictions
+## Example Predictions
 
-Below are the sentiment analysis predictions made by both models on a set of example sentences:
+Here is an example of the predictions made by both the base model (heBERT pretrained) and the fine-tuned model (heBERT-news-sentiment-classifier):
 
-1. **Text**: "צהל חיסל מחבלים" ("The IDF eliminated terrorists")
-    
-    - **Original Model**: Negative (99.98%)
-        
-    - **Fine-Tuned Model**: Positive (99.99%)
-        
-2. **Text**: "ישראל תקפה אווירית" ("Israel launched an airstrike")
-    
-    - **Original Model**: Negative (97.66%)
-        
-    - **Fine-Tuned Model**: Neutral (99.78%)
-        
-3. **Text**: "ישראל ניצחה" ("Israel won")
-    
-    - **Original Model**: Negative (99.39%)
-        
-    - **Fine-Tuned Model**: Positive (99.99%)
-        
-4. **Text**: "חמאס תקף את ישראל" ("Hamas attacked Israel")
-    
-    - **Original Model**: Negative (99.95%)
-        
-    - **Fine-Tuned Model**: Negative (97.40%)
-        
-5. **Text**: "אני שמח" ("I'm happy")
-    
-    - **Original Model**: Positive (99.96%)
-        
-    - **Fine-Tuned Model**: Positive (99.99%)
-        
-6. **Text**: "איזה יום גרוע היה לי" ("What a terrible day I had")
-    
-    - **Original Model**: Negative (99.99%)
-        
-    - **Fine-Tuned Model**: Negative (99.82%)
-        
-7. **Text**: "צהל הצליח לשמור על המדינה" ("The IDF managed to protect the country")
-    
-    - **Original Model**: Negative (99.98%)
-        
-    - **Fine-Tuned Model**: Positive (99.99%)
-        
-
+| Text (Hebrew)             | Translation (English)                  | heBERT Pretrained | heBERT-news-sentiment-classifier |
+| ------------------------- | -------------------------------------- | ----------------- | -------------------------------- |
+| צהל חיסל מחבלים           | The IDF eliminated terrorists          | Negative (99.98%) | Positive (99.99%)                |
+| ישראל תקפה אווירית        | Israel launched an airstrike           | Negative (97.66%) | Neutral (99.78%)                 |
+| ישראל ניצחה               | Israel won                             | Negative (99.39%) | Positive (99.99%)                |
+| חמאס תקף את ישראל         | Hamas attacked Israel                  | Negative (99.96%) | Negative (97.40%)                |
+| צהל הצליח לשמור על המדינה | The IDF managed to protect the country | Negative (99.98%) | Positive (99.99%)                |
+| איזה יום גרוע היה לי      | What a terrible day I had              | Negative (99.99%) | Negative (99.82%)                |
+| אני שמח                   | I'm happy                              | Positive (99.96%) | Positive (99.99%)                |
 ### Observations
 
 - The **original HeBERT model** tends to classify statements involving military action or national success as **negative**, which is not always accurate in the Israeli context.

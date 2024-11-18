@@ -50,8 +50,8 @@ def find_sentiment_extreme_day():
 
     for date in unique_dates:
 
-        positive_sentiment_percentage = sentiment_percentage_for_date(date, 'positive')
-        negative_sentiment_percentage = sentiment_percentage_for_date(date, 'negative')
+        positive_sentiment_percentage = sentiment_percentage_for_date(date, 'Positive')
+        negative_sentiment_percentage = sentiment_percentage_for_date(date, 'Negative')
 
         if positive_sentiment_percentage > highest_positive_percentage:
             highest_positive_percentage = positive_sentiment_percentage
@@ -73,9 +73,9 @@ def sentiment_mapping():
 
     # Define the colors for each sentiment
     color_mapping = {
-        'positive': 'green',
-        'negative': 'red',
-        'neutral': 'orange'
+        'Positive': 'green',
+        'Negative': 'red',
+        'Neutral': 'orange'
     }
 
     # Create the pie chart
@@ -109,7 +109,7 @@ def plot_sentiment_for_date(input_date):
         return
 
     # Group the sentiments and count them
-    sentiment_counts = single_day['Sentiment'].value_counts().reindex(['negative', 'neutral', 'positive'], fill_value=0)
+    sentiment_counts = single_day['Sentiment'].value_counts().reindex(['Negative', 'Neutral', 'Positive'], fill_value=0)
 
     # Plot the data
     COLORS = ["red", "orange", "green"]
@@ -117,7 +117,7 @@ def plot_sentiment_for_date(input_date):
 
     # Convert the counts into a DataFrame
     plot_day = pd.DataFrame([sentiment_counts])
-    plot_day.columns = ['negative', 'neutral', 'positive']
+    plot_day.columns = ['Negative', 'Neutral', 'Positive']
 
     # Plot a stacked bar chart
     plot_day.plot.bar(stacked=True, color=COLORS, title=TITLE, figsize=(10, 6))
